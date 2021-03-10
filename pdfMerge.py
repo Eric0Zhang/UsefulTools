@@ -1,20 +1,37 @@
-# 在anaconda prompt中安装pip install pypdf2
-# 注意在import时按照如下的大小写格式，否则无效
 from PyPDF2 import PdfFileWriter, PdfFileReader
-
+'''
+# 删除文件中的一页
 output = PdfFileWriter()
-input1 = PdfFileReader(open("F:/1.pdf", "rb"))
-input2 = PdfFileReader(open("F:/2.pdf", "rb"))
+input = PdfFileReader(open("F:/1.pdf", "rb"))
 
-# add page 1 from input1 to output document, unchanged
-output.addPage(input1.getPage(0))
-output.addPage(input2.getPage(0))
+num = input.getNumPages()
+for i in range(num):
+    if i!=0:
+        output.addPage(input.getPage(i))
 
 # finally, write "output" to document-output.pdf
-outputStream = open("document-output.pdf", "wb")
+outputStream = open("F:/out.pdf", "wb")
 output.write(outputStream)
 outputStream.close()
-''' #更多功能如下
+'''
+
+# 将两个PDF的所有页聚合在一起
+output = PdfFileWriter()
+input1 = PdfFileReader(open("F:/2.pdf", "rb"))
+input2 = PdfFileReader(open("F:/out.pdf", "rb"))
+
+# add page 1 from input1 to output document, unchanged
+output.appendPagesFromReader(input1)
+output.appendPagesFromReader(input2)
+# output.addPage(input1.getPage(0))
+# output.addPage(input2.getPage(0))
+
+# finally, write "output" to document-output.pdf
+outputStream = open("F:/o.pdf", "wb")
+output.write(outputStream)
+outputStream.close()
+
+''' 
 from PyPDF2 import PdfFileWriter, PdfFileReader
  
 output = PdfFileWriter()
